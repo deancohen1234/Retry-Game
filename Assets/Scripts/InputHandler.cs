@@ -8,6 +8,7 @@ public class InputHandler : MonoBehaviour
 
     private Vector2 moveInput;
     private Vector2 lookInput;
+    private float jumpInput;
 
     //INPUT READING
     // Update is called once per frame
@@ -21,6 +22,11 @@ public class InputHandler : MonoBehaviour
         lookInput = context.ReadValue<Vector2>();
     }
 
+    public void Jump(InputAction.CallbackContext context)
+    {
+        jumpInput = context.ReadValue<float>();
+    }
+
     public Vector2 GetMoveInput()
     {
         return moveInput;
@@ -29,6 +35,11 @@ public class InputHandler : MonoBehaviour
     public Vector2 GetLookInput()
     {
         return lookInput;
+    }
+
+    public bool IsJumping()
+    {
+        return jumpInput > 0;
     }
 
 }

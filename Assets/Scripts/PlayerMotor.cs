@@ -2,30 +2,84 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(Collider))]
 public class PlayerMotor : MonoBehaviour
 {
     public float moveSpeed = 5f;
+    public float maxAcceleration = 20f;
+
+    [Space(10)]
+    public float jumpHeight = 2f;
+    public float fallMultiplier = 2.5f;
+    public float lowJumpMultiplier = 2f;
+
+    [Space(10)]
+    public LayerMask groundCheckMask;
 
     private bool isGrounded;
 
-    private CharacterController characterController;
+    //set on awake
+    private float jumpSpeed;
+    private Vector3 currentVelocity;
+
+    private Rigidbody body;
 
     private void Awake()
     {
-        characterController = GetComponent<CharacterController>();
+
+        body = GetComponent<Rigidbody>();
+
+        jumpSpeed = Mathf.Sqrt(-2f * Physics.gravity.y * jumpHeight);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        isGrounded = characterController.isGrounded;
+        isGrounded = Physics.Raycast(body.position, Vector3.down, 1.01f + Mathf.Epsilon, groundCheckMask);
     }
 
     public void Move(Vector2 input)
     {
+        currentVelocity = body.velocity;
+
         Vector3 moveDir = new Vector3(input.x, 0, input.y);
         moveDir *= moveSpeed;
 
-        characterController.Move(transform.TransformDirection(moveDir));
+        Vector3 desiredVelocity = (transform.forward * moveDir.z) + (transform.right * moveDir.x);
+
+        float maxSpeedChange = maxAcceleration * Time.deltaTime;
+        currentVelocity.x =
+            Mathf.MoveTowards(currentVelocity.x, desiredVelocity.x, maxSpeedChange);
+        currentVelocity.z =
+            Mathf.MoveTowards(currentVelocity.z, desiredVelocity.z, maxSpeedChange);
+
+
+        body.velocity = currentVelocity;
+    }
+
+    public void UpdateJump(bool isJumping)
+    {
+        if (isGrounded && isJumping)
+        {
+            Debug.Log("jump jump");
+            body.velocity += Vector3.up * jumpSpeed;
+        }
+
+        ////if we are falling
+        if (body.velocity.y < 0)
+        {
+            //minus 1 here because (since this is a multiplier) Unity already applied 1x gravity)
+            body.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime;
+        }
+        //if we are rising AND not holding jump, dampen the jump
+        else if (body.velocity.y > 0 && !isJumping)
+        {
+            //minus 1 here because (since this is a multiplier) Unity already applied 1x gravity)
+            body.velocity += Vector3.up * Physics.gravity.y * (lowJumpMultiplier - 1) * Time.fixedDeltaTime;
+        }
+    }
+
+    void OnGUI()
+    {
+        GUI.Label(new Rect(10, 10, 300, 20), "Is Grounded: " + isGrounded);
     }
 }

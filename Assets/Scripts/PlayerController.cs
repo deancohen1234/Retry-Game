@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void FixedUpdate()
@@ -24,5 +24,8 @@ public class PlayerController : MonoBehaviour
         Vector2 input = inputHandler.GetMoveInput();
 
         playerMotor.Move(input);
+
+        playerMotor.UpdateJump(inputHandler.IsJumping());
+
     }
 }
