@@ -37,11 +37,12 @@ public class PlayerMotor : MonoBehaviour
         isGrounded = Physics.Raycast(body.position, Vector3.down, 1.01f + Mathf.Epsilon, groundCheckMask);
     }
 
-    public void Move(Vector2 input)
+    //take in a move direction
+    public void Move(Vector3 moveDirection)
     {
         currentVelocity = body.velocity;
 
-        Vector3 moveDir = new Vector3(input.x, 0, input.y);
+        Vector3 moveDir = moveDirection;
         moveDir *= moveSpeed;
 
         Vector3 desiredVelocity = (transform.forward * moveDir.z) + (transform.right * moveDir.x);

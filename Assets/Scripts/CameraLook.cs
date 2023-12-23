@@ -26,12 +26,12 @@ public class CameraLook : MonoBehaviour
         yRotation += (mouseX * Time.deltaTime * sensitivity);
 
         //only apply x axis rotation so the rotations dont stack
-        transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
+        transform.localRotation = Quaternion.Euler(xRotation, yRotation, 0);
 
         //move the input handlers y rotation so character can spin
         Quaternion yawRotation = Quaternion.Euler(0, yRotation, 0);
 
-        inputHandler.gameObject.transform.Rotate(Vector3.up * Time.deltaTime * mouseX * sensitivity);
+        //inputHandler.gameObject.transform.Rotate(Vector3.up * Time.deltaTime * mouseX * sensitivity);
         //inputHandler.gameObject.transform.rotation = yawRotation;
     }
 }
