@@ -586,7 +586,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputHandler: {fileID: 2068715346}
-  sensitivity: 12
+  sensitivity: 13
   clampRange: {x: -80, y: 80}
 --- !u!1 &975469524
 GameObject:
