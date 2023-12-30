@@ -37,7 +37,6 @@ public class PlayerController : MonoBehaviour
         //handle firing
         if (inputHandler.IsFiring())
         {
-            Debug.Log("Is Firing");
             rifleShooter.Fire();
         }
     }

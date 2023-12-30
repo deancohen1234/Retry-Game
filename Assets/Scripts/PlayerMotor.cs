@@ -61,7 +61,6 @@ public class PlayerMotor : MonoBehaviour
     {
         if (isGrounded && isJumping)
         {
-            Debug.Log("jump jump");
             body.velocity += Vector3.up * jumpSpeed;
         }
 

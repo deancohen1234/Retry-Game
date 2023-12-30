@@ -1905,10 +1905,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5650435a73e801540af982a8931129dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireRate: 180
+  fireRate: 360
   fireTransform: {fileID: 7261061195815699862}
   onHitEffect: {fileID: 725748389856807714, guid: 4bda94453d2ca7444a0fff05b2d425f5, type: 3}
   muzzleFlashEffect: {fileID: 0}
+  positionalRecoilSpeed: 8
+  rotationalRecoilSpeed: 8
+  positionalReturnSpeed: 18
+  rotationalReturnSpeed: 18
+  recoilKickback: {x: 0, y: 0, z: -2}
+  recoilRotation: {x: 15, y: 0, z: -0.2}
 --- !u!114 &995470337074176543
 MonoBehaviour:
   m_ObjectHideFlags: 0
